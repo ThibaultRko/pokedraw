@@ -1,0 +1,24 @@
+<form (ngSubmit)="onSubmit()">
+    <h1>Inscription</h1>
+
+    <h3>Nom :</h3>
+    <input type="text" [(ngModel)]="nom" name="nom" placeholder="Entrez votre nom">
+    <div *ngIf="nomError" class="error">{{ nomError }}</div>
+
+    <h3>Mots de passe :</h3>
+    <input type="password" [(ngModel)]="motDePasse" name="motDePasse" placeholder="Entrez votre mot de passe">
+    <br>
+    <input type="password" [(ngModel)]="confirmationMotDePasse" name="confirmationMotDePasse" placeholder="Confirmez votre mot de passe">
+    <div *ngIf="motDePasseError" class="error">{{ motDePasseError }}</div>
+
+    <h3>Email :</h3>
+    <input type="email" [(ngModel)]="email" name="email" placeholder="Entrez votre Email">
+    <br>
+    <input type="email" [(ngModel)]="confirmationEmail" name="confirmationEmail" placeholder="Confirmez votre Email">
+    <div *ngIf="emailError" class="error">{{ emailError }}</div>
+
+    <br>
+    <button type="submit">S'inscrire</button>
+</form>
+
+
