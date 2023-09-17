@@ -2,16 +2,16 @@ const express = require('express');
 const mysql = require('mysql2');
 
 const app = express();
-const port = 3306;
+const port = 3000;
 
 app.use(express.json()); // Pour pouvoir analyser les données JSON des requêtes POST
 
 // Configuration de la connexion à la base de données
 const db = mysql.createConnection({
-  host: process.env.BD_HOST,
-  user: process.envDB_USER,
-  password: process.env_DB_PASSWORD,
-  database: process.env_DB_DATABASE,
+  host: '',
+  user: '',
+  password: '',
+  database: '',
 });
 
 // Connexion à la base de données
@@ -24,7 +24,7 @@ db.connect((err) => {
 });
 
 // Endpoint GET
-app.get('/api/data', (req, res) => {
+app.get('/PokeDex', (req, res) => {
   // Ici, tu peux exécuter une requête SQL pour récupérer des données de la base de données
   // Puis, tu renvoies les données en réponse
   res.json({ message: 'Données récupérées avec succès' });
