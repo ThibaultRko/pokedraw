@@ -1,1 +1,15 @@
-<p>pokedex works!</p>
+<h1>POKEDEX</h1>
+
+<div *ngIf="pokedexData">
+    <h1>Liste du Pokedex</h1>
+    <ul>
+      <li *ngFor="let pokemon of pokedexData">
+        {{ pokemon.Name }} - {{ pokemon.description }}
+      </li>
+    </ul>
+  </div>
+  
+
+
+  
+

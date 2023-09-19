@@ -1,17 +1,19 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
 app.use(express.json()); // Pour pouvoir analyser les données JSON des requêtes POST
+app.use(cors());
 
 // Configuration de la connexion à la base de données
 const db = mysql.createConnection({
-  host: '',
-  user: '',
-  password: '',
-  database: '',
+  host: '193.70.38.162',
+  user: 'powerninja',
+  password: 'UN5p87w74sU2bbGN',
+  database: 'pokedraw',
 });
 
 // Connexion à la base de données
@@ -23,32 +25,20 @@ db.connect((err) => {
   }
 });
 
-// Endpoint GET
-app.get('/PokeDex', (req, res) => {
-  // Ici, tu peux exécuter une requête SQL pour récupérer des données de la base de données
-  // Puis, tu renvoies les données en réponse
-  res.json({ message: 'Données récupérées avec succès' });
+// Endpoint GET pour récupérer les données du pokedex
+app.get('/pokedex', (req, res) => {
+  // Exécute une requête SQL pour récupérer les données de la table "pokedex"
+  db.query('SELECT * FROM pokedraw.Pokedex;', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données du pokedex :', err);
+      res.status(500).json({ message: 'Erreur lors de la récupération des données' });
+    } else {
+      // Envoie les données du pokedex en réponse
+      res.json(results);
+    }
+  });
 });
 
-// Endpoint POST
-app.post('/api/data', (req, res) => {
-  const { key } = req.body; // Suppose que le corps de la requête contient des données au format JSON
-
-  // Ici, tu peux insérer les données dans la base de données en utilisant une requête SQL
-  // Assure-toi de valider et d'échapper les données correctement pour éviter les injections SQL
-
-  res.json({ message: 'Données insérées avec succès' });
-});
-
-// Endpoint DELETE
-app.delete('/api/data/:id', (req, res) => {
-  const { id } = req.params;
-
-  // Ici, tu peux supprimer les données correspondant à l'ID spécifié dans la base de données
-  // Encore une fois, assure-toi de valider et d'échapper les données correctement
-
-  res.json({ message: `Donnée avec l'ID ${id} supprimée avec succès` });
-});
 
 // Démarrez le serveur Express
 app.listen(port, () => {
