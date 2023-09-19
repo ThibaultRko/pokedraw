@@ -1,7 +1,16 @@
-<div>
-    <h3>Nom:</h3>
-    <input type="text" placeholder="Entrez le nom du pokémon !">
+<form (ngSubmit)="onSubmit()">
+    <div>
+      <h3>Nom:</h3>
+      <input type="text" placeholder="Entrez le nom du pokémon !" [(ngModel)]="nom" name="nom">
+  
+      <h3>Description:</h3>
+      <textarea name="description" cols="50" rows="10" placeholder="Entrez la description de votre pokémon !" [(ngModel)]="description" name="description"></textarea>
+  
+      <!-- Ajoute le gestionnaire d'événement (click) pour appeler la méthode onSubmit -->
+      <button type="submit">Ajouter Pokémon</button>
+    </div>
+  </form>
+  
+  
 
-    <h3>Description:</h3>
-    <textarea name="describe" id="" cols="50" rows="10" placeholder="Entrez la description de votre pokémon !"></textarea>
-</div>
+

@@ -39,6 +39,32 @@ app.get('/pokedex', (req, res) => {
   });
 });
 
+// Endpoint POST pour ajouter des données via le formulaire
+app.post('/forms', (req, res) => {
+  const { nom, description } = req.body; // Récupère les données du corps de la requête
+
+  // Vérifie si les données requises (nom et description) sont présentes
+  if (!nom || !description) {
+    return res.status(400).json({ message: 'Le nom et la description sont requis.' });
+  }
+
+  // Requête SQL pour insérer une nouvelle ligne dans la table "Pokedex"
+  const sql = 'INSERT INTO Pokedex (Name, description) VALUES (?, ?)';
+  
+  // Paramètres à insérer dans la requête SQL
+  const values = [nom, description];
+
+  // Exécute la requête SQL
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Erreur lors de l\'insertion dans la table Pokedex :', err);
+      return res.status(500).json({ message: 'Erreur lors de l\'insertion des données.' });
+    }
+
+    // Réponse indiquant que l'insertion a réussi
+    res.status(201).json({ message: 'Données insérées avec succès dans la table Pokedex.' });
+  });
+});
 
 // Démarrez le serveur Express
 app.listen(port, () => {
