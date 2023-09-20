@@ -39,6 +39,8 @@ app.get('/pokedex', (req, res) => {
   });
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Endpoint POST pour ajouter des données via le formulaire
 app.post('/forms', (req, res) => {
   const { nom, description } = req.body; // Récupère les données du corps de la requête
@@ -65,6 +67,38 @@ app.post('/forms', (req, res) => {
     res.status(201).json({ message: 'Données insérées avec succès dans la table Pokedex.' });
   });
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Endpoint POST pour ajouter des données via le formulaire vers la table Users
+
+app.post('/inscription', (req, res) => {
+  const { nom, email, motDePasse } = req.body// recupère les données de la requete
+
+  //verifie si les données requises sont présentes
+  if(!nom || !email || !motDePasse ) {
+      return res.status(400).json({message: 'vous ne remplissez pas l\'ensemble des champs requis.' });
+  }
+
+  //requête SQL pour inserer une nouvelle ligne dans la table "Users"
+  const sql = "INSERT INTO Users (name, email, password) VALUES (?, ?, ?)";
+
+  // Parametres à inserer dans la requete SQL
+  const values = [nom, email, motDePasse];
+
+  //Execute la requete SQL
+  db.query(sql, values, (err, result) => {
+      if(err) {
+          console.error("Erreur lors de l'insertion dans la table Users :", err);
+          return res.status(500).json({ message: "Erreur lors de l'insertion des donneés."});
+      }
+
+      // Réponse indiquant que l'insertion est réussie
+      res.status(201).json({ message: 'Données inserées avec succès dans la table Users'});
+  });
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Démarrez le serveur Express
 app.listen(port, () => {
