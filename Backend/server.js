@@ -70,35 +70,60 @@ app.post('/forms', (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 // Endpoint POST pour ajouter des données via le formulaire vers la table Users
-
 app.post('/inscription', (req, res) => {
-  const { nom, email, motDePasse } = req.body// recupère les données de la requete
+  const { nom, email, motDePasse } = req.body; // Récupère les données de la requête
 
-  //verifie si les données requises sont présentes
-  if(!nom || !email || !motDePasse ) {
-      return res.status(400).json({message: 'vous ne remplissez pas l\'ensemble des champs requis.' });
+  // Vérifie si les données requises sont présentes
+  if (!nom || !email || !motDePasse) {
+    return res.status(400).json({ message: 'Vous ne remplissez pas l\'ensemble des champs requis.' });
   }
 
-  //requête SQL pour inserer une nouvelle ligne dans la table "Users"
-  const sql = "INSERT INTO Users (name, email, password) VALUES (?, ?, ?)";
+  // Requête SQL pour vérifier si l'e-mail existe déjà dans la table "Users"
+  const emailCheckSql = 'SELECT COUNT(*) AS count FROM Users WHERE email = ?';
 
-  // Parametres à inserer dans la requete SQL
-  const values = [nom, email, motDePasse];
+  // Paramètre à insérer dans la requête SQL pour la vérification de l'e-mail
+  const emailCheckValues = [email];
 
-  //Execute la requete SQL
-  db.query(sql, values, (err, result) => {
-      if(err) {
-          console.error("Erreur lors de l'insertion dans la table Users :", err);
-          return res.status(500).json({ message: "Erreur lors de l'insertion des donneés."});
+  // Exécute la requête SQL pour vérifier si l'e-mail existe déjà
+  db.query(emailCheckSql, emailCheckValues, (emailCheckError, emailCheckResult) => {
+    if (emailCheckError) {
+      console.error('Erreur lors de la vérification de l\'e-mail :', emailCheckError);
+      return res.status(500).json({ message: 'Erreur lors de la vérification de l\'e-mail.' });
+    }
+
+    const emailCount = emailCheckResult[0].count;
+
+    if (emailCount > 0) {
+      // L'e-mail existe déjà, renvoie une réponse d'erreur
+      return res.status(400).json({ message: 'Cet e-mail est déjà enregistré.' });
+    }
+
+    // L'e-mail est unique, continuez avec l'insertion dans la table "Users"
+    const insertSql = "INSERT INTO Users (name, email, password) VALUES (?, ?, ?)";
+
+    // Paramètres à insérer dans la requête SQL d'insertion
+    const insertValues = [nom, email, motDePasse];
+
+    // Exécute la requête SQL d'insertion
+    db.query(insertSql, insertValues, (insertError, insertResult) => {
+      if (insertError) {
+        console.error("Erreur lors de l'insertion dans la table Users :", insertError);
+        return res.status(500).json({ message: "Erreur lors de l'insertion des données." });
       }
 
       // Réponse indiquant que l'insertion est réussie
-      res.status(201).json({ message: 'Données inserées avec succès dans la table Users'});
+      res.status(201).json({ message: 'Données insérées avec succès dans la table Users' });
+    });
   });
 });
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 // Démarrez le serveur Express
 app.listen(port, () => {

@@ -18,6 +18,7 @@ export class InscriptionComponent {
   nomError: string = '';
   motDePasseError: string = '';
   emailError: string = '';
+  
 
   constructor(private http: HttpClient) {} // Injection de HttpClient dans le constructeur
 
