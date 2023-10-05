@@ -8,6 +8,7 @@
   
       <!-- Ajoute le gestionnaire d'événement (click) pour appeler la méthode onSubmit -->
       <button type="submit">Ajouter Pokémon</button>
+      <div *ngIf="validationMessage" class="succes">{{ validationMessage }}</div>
     </div>
   </form>
   

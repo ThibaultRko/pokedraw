@@ -19,6 +19,8 @@
 
     <br>
     <button type="submit">S'inscrire</button>
+    <div *ngIf="validationMessage" class="succes">{{ validationMessage }}</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 </form>
 
 

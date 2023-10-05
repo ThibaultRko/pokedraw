@@ -18,6 +18,10 @@ export class InscriptionComponent {
   nomError: string = '';
   motDePasseError: string = '';
   emailError: string = '';
+  errorMessage: string = '';
+
+  // Message de confirmation
+  validationMessage: string = ''
   
 
   constructor(private http: HttpClient) {} // Injection de HttpClient dans le constructeur
@@ -61,15 +65,19 @@ export class InscriptionComponent {
     //Effectuez une requête POST vers le serveur Express
     this.http.post('http://localhost:3000/inscription', data).subscribe((response: any) => {
       console.log(response.message);
+      this.validationMessage = 'Données insérées avec succès dans la table Users';
 
       //Réinitialisez les champs du formulaire après l'ajout
       this.nom = '';
       this.email = '';
+      this.confirmationMotDePasse = '';
       this.motDePasse = '';
       this.nomError = '';
-      this.emailError = '';
+      this.confirmationEmail = '';
+      this.errorMessage = '';
     }, (error) => {
       console.error('Erreur lors de la requête POST :', error)
+      this.errorMessage = "Email déjà existant !";
     });
   }
 }
