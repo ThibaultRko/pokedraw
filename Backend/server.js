@@ -43,18 +43,18 @@ app.get('/pokedex', (req, res) => {
 
 // Endpoint POST pour ajouter des données via le formulaire
 app.post('/forms', (req, res) => {
-  const { nom, description } = req.body; // Récupère les données du corps de la requête
+  const { nom, description, image } = req.body; // Récupère les données du corps de la requête
 
   // Vérifie si les données requises (nom et description) sont présentes
-  if (!nom || !description) {
-    return res.status(400).json({ message: 'Le nom et la description sont requis.' });
+  if (!nom || !description || !image) {
+    return res.status(400).json({ message: 'Le nom la description et l\'image sont requis.' });
   }
 
   // Requête SQL pour insérer une nouvelle ligne dans la table "Pokedex"
-  const sql = 'INSERT INTO Pokedex (Name, description) VALUES (?, ?)';
+  const sql = 'INSERT INTO Pokedex (Name, description, PokedrawImg) VALUES (?, ?, ?)';
   
   // Paramètres à insérer dans la requête SQL
-  const values = [nom, description];
+  const values = [nom, description, image];
 
   // Exécute la requête SQL
   db.query(sql, values, (err, result) => {

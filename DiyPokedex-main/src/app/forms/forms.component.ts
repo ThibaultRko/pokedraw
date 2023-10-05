@@ -24,7 +24,7 @@ export class FormsComponent {
     // Effectue une requête POST vers le serveur Express
     this.http.post('http://localhost:3000/forms', data).subscribe((response: any) => {
       console.log(response.message); // Affiche la réponse du serveur
-      this.validationMessage = "la donnée a été ajoutée avec succès!";
+      this.validationMessage = " ✨  la donnée a été ajoutée avec succès ✨";
 
       // Réinitialise les champs du formulaire après l'ajout
       this.nom = '';

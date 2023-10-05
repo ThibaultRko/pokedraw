@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PokedexService } from './pokedex.service';
-import { PokedexEntry } from './pokedex.interface';
+
 
 
 @Component({

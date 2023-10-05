@@ -1,14 +1,15 @@
-<form (ngSubmit)="onSubmit()">
+<form class="m-10" (ngSubmit)="onSubmit()">
     <div>
-      <h3>Nom:</h3>
-      <input type="text" placeholder="Entrez le nom du pokémon !" [(ngModel)]="nom" name="nom">
+      <p class="font-bold text-white">Nom:</p>
+      <input class=" bg-transparent border border-white text-white" type="text" placeholder="Entrez le nom du pokémon !" [(ngModel)]="nom" name="nom">
   
-      <h3>Description:</h3>
-      <textarea name="description" cols="50" rows="10" placeholder="Entrez la description de votre pokémon !" [(ngModel)]="description" name="description"></textarea>
+      <p class="font-bold text-white">Description:</p>
+      <textarea class="bg-transparent border border-white text-white" name="description" cols="50" rows="10" placeholder="Entrez la description de votre pokémon !" [(ngModel)]="description" name="description"></textarea>
+
   
-      <!-- Ajoute le gestionnaire d'événement (click) pour appeler la méthode onSubmit -->
-      <button type="submit">Ajouter Pokémon</button>
-      <div *ngIf="validationMessage" class="succes">{{ validationMessage }}</div>
+      <br>
+      <button class="btn" type="submit">Ajouter Pokémon</button>
+      <div *ngIf="validationMessage" class="succes font-bold text-white">{{ validationMessage }}</div>
     </div>
   </form>
   

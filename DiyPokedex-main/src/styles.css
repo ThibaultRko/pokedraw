@@ -2,8 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+    font-family: 'MaPolice';
+}
+
+.imgCard {
+    @apply w-60
+}
+
+p{
+    @apply text-white
+}
+
+label{
+    @apply text-white
+}
+
+@font-face {
+    font-family: 'MaPolice';
+    src: url('_fonts/VerySimpleChalk.ttf') format('trueType');
+}
+
 .container {
-    max-width: 1200px;
+    max-width: 1900px;
     margin: auto;
     padding: 20px;
 }
@@ -12,6 +34,3 @@ footer {
     padding: 0%;
 }
 
-img {
-    max-width: inherit;
-}
