@@ -1,11 +1,11 @@
 
-<h1 class="font-bold text-white text-5xl text-center m-8">POKEDEX</h1>
+<h1 class="font-bold text-white text-5xl text-center m-8">POKEWALL</h1>
 <div class="flex justify-center" *ngIf="pokedexData">
     <ul class="inline-grid xl:grid-cols-5 gap-4 lg:grid-cols-4 gap-4 md:grid-cols-3 gap-4 sm:grid-cols-2 gap-4">
       <li class="font-bold text-white " *ngFor="let pokemon of pokedexData">
         <div>
           <p class="text-center">
-            {{ pokemon.Name }} 
+            {{ pokemon.Name }}
           </p>
           <img class="imgCard" src="/_assets/{{pokemon.PokedrawImg}}"/>
         </div>

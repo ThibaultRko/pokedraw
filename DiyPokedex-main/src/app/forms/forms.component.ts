@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 export class FormsComponent {
   nom: string = '';
   description: string = '';
+  image: string = '';
   validationMessage: string = '';
 
   constructor(private http: HttpClient) {}
@@ -29,6 +30,7 @@ export class FormsComponent {
       // Réinitialise les champs du formulaire après l'ajout
       this.nom = '';
       this.description = '';
+      this.image = '';
     }, (error) => {
       console.error('Erreur lors de la requête POST :', error);
     });

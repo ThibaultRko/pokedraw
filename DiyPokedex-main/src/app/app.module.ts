@@ -11,6 +11,7 @@ import { PokedexComponent } from './pokedex/pokedex.component';
 import { ProfilComponent } from './profil/profil.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { FormsModule } from '@angular/forms';
+import { PPokedrawComponent } from './p-pokedraw/p-pokedraw.component';
 
 
 
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     PokedexComponent,
     ProfilComponent,
     InscriptionComponent,
+    PPokedrawComponent,
 
   ],
   imports: [
