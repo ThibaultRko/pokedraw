@@ -1,51 +1,100 @@
-import { Component, AfterViewInit  } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
   selector: 'app-p-pokedraw',
   templateUrl: './p-pokedraw.component.html',
-  styleUrls: ['./p-pokedraw.component.css'],
-  template: '<canvas id="myCanvas"></canvas>',
+  styleUrls: ['./p-pokedraw.component.css']
 })
-
-
 
 export class PPokedrawComponent implements AfterViewInit {
 
-  ngAfterViewInit(): void { 
+  strokeWidth: number = 5;
+  eraserSize: number = 5;
+  currentColor: string = 'white';
+  isEraserActive: boolean = false;
+  paths: paper.Path[] = [];
+
+  changeStrokeWidth(size: number) {
+    this.strokeWidth = size;
+  }
+
+  changeColor(color: string) {
+    this.currentColor = color;
+    this.isEraserActive = false;
+  }
+
+  toggleEraser() {
+    this.isEraserActive = !this.isEraserActive;
+  }
+
+  undoLastAction() {
+    if (this.paths.length > 0) {
+      const lastPath = this.paths.pop();
+      if (lastPath) {
+        lastPath.remove();
+      }
+    }
+  }
+
+  clearCanvas() {
+    this.paths.forEach(path => path.remove());
+    this.paths = [];
+  }
+
+  changeEraserSize(size: number) {
+    this.eraserSize = size;
+    this.isEraserActive = true;
+  }
+
+  ngAfterViewInit(): void {
+    
     const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-    paper.setup(canvas); 
+    paper.setup(canvas);
 
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      paper.view.viewSize = new paper.Size(window.innerWidth, window.innerHeight);
-    }); 
-
-    // Je crée un outil de dessin
     const tool = new paper.Tool();
     let path: paper.Path;
+    let eraserPath: paper.Path | null = null;
 
+    let cursorCircle = new paper.Path.Circle(new paper.Point(0, 0), this.strokeWidth);
+    cursorCircle.strokeColor = new paper.Color('grey');
+
+    tool.onMouseMove = (event: paper.ToolEvent) => {
+      cursorCircle.position = event.point;
+      cursorCircle.scale(this.isEraserActive ? this.eraserSize / cursorCircle.bounds.width : this.strokeWidth / cursorCircle.bounds.width);
+    };
 
     tool.onMouseDown = (event: paper.ToolEvent) => {
       path = new paper.Path();
-      path.strokeColor = new paper.Color('white');
+      path.strokeColor = new paper.Color(this.currentColor);
       path.add(event.point);
+      this.paths.push(path);
+      cursorCircle.bringToFront();
     };
-    
 
-    // Fonction pour dessiner en trainant la souris
     tool.onMouseDrag = (event: paper.ToolEvent) => {
-      path.add(event.point);
+      cursorCircle.position = event.point;
+      cursorCircle.scale(this.isEraserActive ? this.eraserSize / cursorCircle.bounds.width : this.strokeWidth / cursorCircle.bounds.width);
+      if (this.isEraserActive) {
+        path.add(event.point);
+        path.strokeColor = new paper.Color('#111822');
+        path.strokeWidth = this.eraserSize;
+      } else {
+        path.add(event.point);
+        path.strokeColor = new paper.Color(this.currentColor);
+        path.strokeWidth = this.strokeWidth;
+      }
+      cursorCircle.bringToFront();
     };
 
-    // Fonction pour terminer le dessin
-    tool.onMouseUp = (event: paper.ToolEvent) => {
-      path.simplify(); // Pour rendre le trait plus fluide
+    tool.onMouseUp = () => {
+      if (this.isEraserActive && eraserPath) {
+        let newPath = path.subtract(eraserPath) as paper.Path;
+        path.remove();
+        path = newPath;
+        eraserPath.remove();
+        eraserPath = null;
+      }
     };
-
   }
-
 }
-

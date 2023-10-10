@@ -45,16 +45,19 @@ app.get('/pokedex', (req, res) => {
 app.post('/forms', (req, res) => {
   const { nom, description, image } = req.body; // Récupère les données du corps de la requête
 
-  // Vérifie si les données requises (nom et description) sont présentes
+  // Vérifie si les données requises (nom, description et image) sont présentes
   if (!nom || !description || !image) {
-    return res.status(400).json({ message: 'Le nom la description et l\'image sont requis.' });
+    return res.status(400).json({ message: 'Le nom, la description et l\'image sont requis.' });
   }
+
+  // Convertit l'image base64 en un buffer binaire
+  const imageBuffer = Buffer.from(image, 'base64');
 
   // Requête SQL pour insérer une nouvelle ligne dans la table "Pokedex"
   const sql = 'INSERT INTO Pokedex (Name, description, PokedrawImg) VALUES (?, ?, ?)';
   
   // Paramètres à insérer dans la requête SQL
-  const values = [nom, description, image];
+  const values = [nom, description, imageBuffer];
 
   // Exécute la requête SQL
   db.query(sql, values, (err, result) => {
@@ -67,6 +70,7 @@ app.post('/forms', (req, res) => {
     res.status(201).json({ message: 'Données insérées avec succès dans la table Pokedex.' });
   });
 });
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
