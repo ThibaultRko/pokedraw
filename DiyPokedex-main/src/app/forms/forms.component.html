@@ -2,12 +2,12 @@
   <div>
     <div class="flex flex-row">
       <div class="w-6/12 border-2 max-h-96 overflow-hidden">
-        <app-p-pokedraw #pokedrawCanvas (canvasReady)="onCanvasReady()" (mouseup)="onCanvasMouseUp()"></app-p-pokedraw>
+        <!-- <app-p-pokedraw (drawingReady)="onSaveDrawing($event)"></app-p-pokedraw> -->
+        <app-p-pokedraw></app-p-pokedraw>
       </div>
       <div class="w-6/12 m-2">
         <p class="font-bold text-white">Nom:</p>
         <input class="bg-transparent border border-white text-white" type="text" placeholder="Entrez le nom du pokémon !" [(ngModel)]="nom" name="nom">
-    
         <p class="font-bold text-white">Description:</p>
         <textarea class="responsive-textarea bg-transparent border border-white text-white" name="description" cols="50" rows="10" placeholder="Entrez la description de votre pokémon !" [(ngModel)]="description" name="description"></textarea>
 

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
@@ -6,14 +6,17 @@ import * as paper from 'paper';
   templateUrl: './p-pokedraw.component.html',
   styleUrls: ['./p-pokedraw.component.css']
 })
-
 export class PPokedrawComponent implements AfterViewInit {
 
   strokeWidth: number = 5;
   eraserSize: number = 5;
-  currentColor: string = 'white';
+  currentColor: string = 'red';
   isEraserActive: boolean = false;
   paths: paper.Path[] = [];
+  private canvas?: HTMLCanvasElement;
+
+
+  constructor(private el: ElementRef) {}
 
   changeStrokeWidth(size: number) {
     this.strokeWidth = size;
@@ -47,10 +50,18 @@ export class PPokedrawComponent implements AfterViewInit {
     this.isEraserActive = true;
   }
 
+  saveDrawing(): string | null {
+    if (this.canvas) {
+      const dataUrl = this.canvas.toDataURL();
+      // console.log(`donnée sauvée dans saveDrawing : ${dataUrl}`);
+      return dataUrl;
+    }
+    return null;
+  }
+
   ngAfterViewInit(): void {
-    
-    const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-    paper.setup(canvas);
+    this.canvas = this.el.nativeElement.querySelector('canvas') as HTMLCanvasElement;
+    paper.setup(this.canvas);
 
     const tool = new paper.Tool();
     let path: paper.Path;

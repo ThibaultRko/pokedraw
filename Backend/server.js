@@ -1,9 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const { log } = require('console');
 
 const app = express();
 const port = 3000;
+
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 
 app.use(express.json()); // Pour pouvoir analyser les données JSON des requêtes POST
 app.use(cors());
@@ -45,19 +50,29 @@ app.get('/pokedex', (req, res) => {
 app.post('/forms', (req, res) => {
   const { nom, description, image } = req.body; // Récupère les données du corps de la requête
 
-  // Vérifie si les données requises (nom, description et image) sont présentes
-  if (!nom || !description || !image) {
-    return res.status(400).json({ message: 'Le nom, la description et l\'image sont requis.' });
+  // Vérifie si le nom est présent
+  if (!nom) {
+    return res.status(400).json({ message: 'Le nom est requis.' });
+  }
+
+  // Vérifie si la description est présente
+  if (!description) {
+    return res.status(400).json({ message: 'La description est requise.' });
+  }
+
+  // Vérifie si l'image est présente
+  if (!image) {
+    return res.status(400).json({ message: 'L\'image est requise.' });
   }
 
   // Convertit l'image base64 en un buffer binaire
-  const imageBuffer = Buffer.from(image, 'base64');
+  // const imageBuffer = Buffer.from(image, 'base64');
 
   // Requête SQL pour insérer une nouvelle ligne dans la table "Pokedex"
   const sql = 'INSERT INTO Pokedex (Name, description, PokedrawImg) VALUES (?, ?, ?)';
   
   // Paramètres à insérer dans la requête SQL
-  const values = [nom, description, imageBuffer];
+  const values = [nom, description, image];
 
   // Exécute la requête SQL
   db.query(sql, values, (err, result) => {
