@@ -44,7 +44,7 @@ export class FormsComponent {
       description: this.description,
       image: this.image,
     };
-    console.log(data);
+    console.log(`valeur de data.image : ${data.image}`);
     
     // Vérifiez si image est défini et n'est pas vide
     if (!data.image) {

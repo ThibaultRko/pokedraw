@@ -10,7 +10,7 @@ export class PPokedrawComponent implements AfterViewInit {
 
   strokeWidth: number = 5;
   eraserSize: number = 5;
-  currentColor: string = 'red';
+  currentColor: string = 'white';
   isEraserActive: boolean = false;
   paths: paper.Path[] = [];
   private canvas?: HTMLCanvasElement;
