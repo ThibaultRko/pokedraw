@@ -38,7 +38,7 @@ export class FormsComponent {
       console.error('Erreur lors de la récupération du dataUrl.');
     }
 
-    // Utilisez this.image pour envoyer les dessins à votre backend
+    // Utilise this.image pour envoyer les dessins au backend
     const data = {
       nom: this.nom,
       description: this.description,
@@ -46,7 +46,7 @@ export class FormsComponent {
     };
     console.log(`valeur de data.image : ${data.image}`);
     
-    // Vérifiez si image est défini et n'est pas vide
+    // Vérifie si image est défini et n'est pas vide
     if (!data.image) {
       console.error('Erreur: image est manquant ou vide.');
       return;
