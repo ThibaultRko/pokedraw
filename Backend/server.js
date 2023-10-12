@@ -2,7 +2,9 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const dotEnv = require('dotenv').config();
 const { log } = require('console');
+
 
 const app = express();
 const port = 3000;
@@ -13,12 +15,13 @@ app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(express.json()); // Pour pouvoir analyser les données JSON des requêtes POST
 app.use(cors());
 
+
 // Configuration de la connexion à la base de données
 const db = mysql.createConnection({
-  host: '193.70.38.162',
-  user: 'powerninja',
-  password: 'UN5p87w74sU2bbGN',
-  database: 'pokedraw',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 // Connexion à la base de données
@@ -65,7 +68,7 @@ app.post('/forms', (req, res) => {
     return res.status(400).json({ message: 'L\'image est requise.' });
   }
 
-  // Convertit l'image base64 en un buffer binaire
+  //Convertit l'image base64 en un buffer binaire
   // const imageBuffer = Buffer.from(image, 'base64');
 
   // Requête SQL pour insérer une nouvelle ligne dans la table "Pokedex"
